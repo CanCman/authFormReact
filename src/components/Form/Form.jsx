@@ -23,25 +23,20 @@ class Form extends Component {
     handleChange(fieldState) {
         this.setState( state => {
             Object.assign(state, fieldState);
-            state.isFill = !!state.name.value && !!state.phone.value
+            state.isFill = state.name.isValid && state.phone.isValid
             return state;
         });
     }
 
     handleSubmit(event) {
-        const state = this.state;
-        if (state.name.isValid && state.phone.isValid && state.email.isValid) {
-            alert('Валидировано');
-        } else {
-            alert('Не провалидировано');
-        }
+
         event.preventDefault();
     }
 
     render() {
         return (
             <form onSubmit={this.handleSubmit} className='form'>
-                <h2 className="form__title">{this.props.title}</h2>
+                <h2 className="form__title">Заголовок формы</h2>
                 <FormFild id="name" 
                     type="text"
                     placeholder="Имя*"
@@ -51,13 +46,13 @@ class Form extends Component {
                 <FormFild id="phone" 
                     type="text"
                     placeholder="Номер телефона*"
-                    pattern="123"
+                    pattern="\+[\d]{4,16}"
                     required={true}
                     onChangeHandler={this.handleChange} />
                 <FormFild id="email" 
                     type="text"
                     placeholder="Электронная почта"
-                    pattern="123"
+                    pattern="^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,4}$"
                     required={false}
                     onChangeHandler={this.handleChange} />
                 <Submit 

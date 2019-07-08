@@ -5,9 +5,17 @@ class FormField extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {value: ''};
+        this.state = {lengthText: ''};
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(event) {
+        if (this.props.id === 'phone') {
+            let text = event.target.value;
+            event.target.value = text === '' || text === '+' ? '+' : '';
+        }
     }
 
     handleChange(event) {
@@ -28,7 +36,8 @@ class FormField extends Component {
                 type={props.type}
                 className={`form__input form__input_${props.id}`} 
                 placeholder={props.placeholder}
-                onChange={this.handleChange}/>
+                onChange={this.handleChange}
+                onClick={this.handleClick}/>
         );
     }
 }
