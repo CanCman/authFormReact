@@ -1,9 +1,14 @@
 const path = require("path");
 const devMode = process.env.NODE_ENV !== 'production';
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: 
+  // [
+    "./src/index.js",
+    // "./src/fonts/calibri.ttf",
+  // ],
   mode: "development",
   output: {
     filename: "./main.js"
@@ -17,6 +22,7 @@ module.exports = {
   },
   devtool: devMode ? 'eval-source-map' : 'source-map',
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -27,7 +33,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?js$/,
+        test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: "babel-loader"
@@ -49,6 +55,18 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: ["file-loader"]
+      },
+      {
+        test: /\.ttf$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: 'fonts',
+            },
+          }
+        ]
       }
     ]
   }
